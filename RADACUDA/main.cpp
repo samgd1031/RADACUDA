@@ -6,6 +6,9 @@
 #include "utility.h"
 #include "vec3.h"
 
+#include <sciplot/sciplot.hpp>
+using namespace sciplot;
+
 int main() {
 	
 	// RIGHT NOW THE MAIN FUNCTION BUILDS A RECTANGLE AND CHECKS IF A FEW RAYS HIT IT
@@ -33,5 +36,37 @@ int main() {
 	std::cout << "Ray 2: " << hit2 << '\n';
 	bool hit3 = rect.hit(R3, 0, infinity, rec);
 	std::cout << "Ray 3: " << hit3 << '\n';
+
+	// sciplot test
+	// Create a vector with x-axis values
+	std::vector<int> x = { 0, 1, 2, 3 };
+
+	// Create a vector with y values
+	std::vector<float> y = { -4, 2, 5, -3 };
+
+	// Create a Plot object
+	Plot plot;
+
+	// Set the legend
+	plot.legend().hide();
+
+	// Set the x and y labels
+	plot.xlabel("x");
+	plot.ylabel("y");
+
+	// Set the y range
+	plot.yrange(-5, 5);
+
+	// Add values to plot
+	plot.drawBoxes(x, y)
+		.fillSolid()
+		.fillColor("green")
+		.fillIntensity(0.5);
+
+	// Adjust the relative width of the boxes
+	plot.boxWidthRelative(0.75);
+
+	// Show the plot in a pop-up window
+	plot.show();
 
 }
