@@ -18,8 +18,9 @@
 // and two values to set the length in each dimension
 class rectangle : public hittable {
 public:
-	rectangle(point3 orig, vec3 v1, vec3 v2, double dim1, double dim2, int u_d, int v_d); // constructor
+	rectangle(point3 origin, vec3 v1, vec3 v2, double dim1, double dim2, int u_d, int v_d); // constructor
 	virtual bool hit(const ray& r, double t_min, double t_max, hit_record& rec) const override; //hit function
+	virtual std::string gnuplot_repr();  // gnuplot representation
 
 public:
 	point3 origin;
@@ -110,6 +111,14 @@ bool rectangle::hit(const ray& r, double t_min, double t_max, hit_record& rec) c
 	return true;
 }
 
+// return a valid gnuplot string to plot this rectangle
+std::string rectangle::gnuplot_repr() {
+	std::string x_str = std::to_string(origin[0]) + " + " + std::to_string((S1 * d1).e[0]) + "*u + " + std::to_string((S2 * d2).e[0]) + "*v";
+	std::string y_str = std::to_string(origin[1]) + " + " + std::to_string((S1 * d1).e[1]) + "*u + " + std::to_string((S2 * d2).e[1]) + "*v";
+	std::string z_str = std::to_string(origin[2]) + " + " + std::to_string((S1 * d1).e[2]) + "*u + " + std::to_string((S2 * d2).e[2]) + "*v";
+
+	return "[u=0:1] [v=0:1] " + x_str + ',' + y_str + ',' + z_str + " with pm3d fs solid fc '#A0FF0000'";
+}
 //END RECTANGLE
 
 #endif // !PRIMITITVES_H
