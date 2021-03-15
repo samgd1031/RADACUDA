@@ -6,6 +6,9 @@
 #include "utility.h"
 #include "vec3.h"
 
+#include "gnuplot.h"
+
+
 int main() {
 	
 	// RIGHT NOW THE MAIN FUNCTION BUILDS A RECTANGLE AND CHECKS IF A FEW RAYS HIT IT
@@ -34,5 +37,11 @@ int main() {
 	bool hit3 = rect.hit(R3, 0, infinity, rec);
 	std::cout << "Ray 3: " << hit3 << '\n';
 
+	GnuplotPipe gp;
+	gp.sendLine("set pm3d");
+	gp.sendLine("set mouse");
+	gp.sendLine("pause -1");
+	
+	return 0;
 
 }
