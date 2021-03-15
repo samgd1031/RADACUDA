@@ -12,7 +12,7 @@ class material {
 public:
 	virtual bool scatter(
 		const ray& r_in, const hit_record&rec, 
-	)
+	);
 };
 
 #endif // !MATERIAL_H
