@@ -4,6 +4,7 @@
 #define RAY_H
 
 #include "vec3.h"
+#include <string>
 
 class ray {
 public:
@@ -18,6 +19,18 @@ public:
 	// this function returns a point on the ray given the value of t
 	point3 at(double t) const {
 		return orig + t * dir;
+	}
+
+	// define a function that returns a valid gnuplot string that can be combined with the gnuplot commands
+	// "splot" or "replot" to plot the ray
+	// the ray is plotted parametrically from tmin to tmax
+	std::string gnuplot_repr(double tmin, double tmax) {
+		////////////////////////////////////////////////////////////
+		// THE RANGE FOR T DOES NOT APPEAR TO BE WORKING PROPERLY, PLOTS ARE ALWAYS FROM T=0:1
+		////////////////////////////////////////////////////////////
+		return "[u=" + std::to_string(tmin) + ":" + std::to_string(tmax) + "]" + std::to_string(orig[0]) + "+ u*" + std::to_string(dir[0])
+			+ ", " + std::to_string(orig[1]) + "+ u*" + std::to_string(dir[1])
+			+ ", " + std::to_string(orig[2]) + "+ u*" + std::to_string(dir[2]);
 	}
 
 public:
