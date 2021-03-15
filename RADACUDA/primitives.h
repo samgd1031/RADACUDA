@@ -18,7 +18,7 @@
 // and two values to set the length in each dimension
 class rectangle : public hittable {
 public:
-	rectangle(point3 orig, vec3 v1, vec3 v2, double dim1, double dim2); // constructor
+	rectangle(point3 orig, vec3 v1, vec3 v2, double dim1, double dim2, int u_d, int v_d); // constructor
 	virtual bool hit(const ray& r, double t_min, double t_max, hit_record& rec) const override; //hit function
 
 public:
@@ -28,13 +28,17 @@ public:
 	vec3 normal;
 	double d1;
 	double d2;
+	int u_div;
+	int v_div;
 };
 
 // constructor
-rectangle::rectangle(point3 orig, vec3 v1, vec3 v2, double dim1, double dim2) {
+rectangle::rectangle(point3 orig, vec3 v1, vec3 v2, double dim1, double dim2, int u_d, int v_d) {
 	origin = orig; // origin
 	d1 = dim1; // dimension along S1 direction
 	d2 = dim2; // dimension along S2 direction
+	u_div = u_d; // number of nodes in S1 direction
+	v_div = v_d; // number of nodes in S2 direction
 	S1 = unit_vector(v1); // normalize to unit vector
 	// if S2 is not perpendicular to S1 it must be made perpendicular
 	if (dot(S1, v2) != 0.0) { // dot product is zero if vectors are perpendicular
@@ -47,6 +51,19 @@ rectangle::rectangle(point3 orig, vec3 v1, vec3 v2, double dim1, double dim2) {
 	//compute normal vector (computing here so that this calculation does not need to repeat every hit test)
 	// the normal vector is the same across the entire rectangle
 	normal = cross(S1, S2); // since S1 and S2 are already orthogonal unit vectors the cross product is also a unit vector
+
+	// assign nodes based on U/V breakdown
+	// for now nodalization is "edge" nodes only
+	node_list.reserve(u_div * v_div); 
+
+	for (int ii = 0; ii < u_div; ++ii) {
+		for (int jj = 0; jj < v_div; ++jj) {
+			point3 u_coord = (u_div == 1) ? S1 * d1 / 2.0 : S1 * (d1/(u_div - 1.0)) * ii;
+			point3 v_coord = (v_div == 1) ? S2 * d2 / 2.0 : S2 * (d2/(v_div - 1.0)) * jj;
+			node_list.push_back(node(u_coord + v_coord));
+		}
+	}
+
 }
 
 // hit function
