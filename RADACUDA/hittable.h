@@ -19,6 +19,11 @@ class hittable {
 public:
 	// function that returns true if there is a hit and false if there isnt
 	virtual bool hit(const ray& r, double t_min, double t_max, hit_record& rec) const = 0;
+	
+	// function to plot the object in gnuplot
+	virtual std::string gnuplot_repr() {
+		return "";
+	}
 
 public:
 	std::vector<node> node_list;
