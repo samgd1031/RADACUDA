@@ -31,6 +31,7 @@ inline double clamp(double x, double min, double max) {
 
 inline double random_double() {
 	//returns a random real in [0, 1)
+	//TODO: add a parameter that lets the user specify a seed value
 	return rand() / (RAND_MAX + 1.0);
 }
 

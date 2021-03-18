@@ -72,7 +72,8 @@ bool rectangle::hit(const ray& r, double t_min, double t_max, hit_record& rec) c
 	// first, check if the ray and the rectangle normal are perpendicular
 	// if they are, then the ray is parallel to the rectangle and will not hit
 	// even if coplanar, the incident angle is 90degrees so never will absorb (rectangle is infinitely thin)
-	if (dot(r.dir, normal) == 0.0) return false;
+	// giving this a small tolerance since it is unlikely to ever be exactly zero
+	if (dot(r.dir, normal) < 1e-6) return false;
 
 	// if the dot product is not zero, the ray will intersect the plane that the rectangle lies in
 	// find this intersection point next
@@ -117,7 +118,7 @@ std::string rectangle::gnuplot_repr() {
 	std::string y_str = std::to_string(origin[1]) + " + " + std::to_string((S1 * d1).e[1]) + "*u + " + std::to_string((S2 * d2).e[1]) + "*v";
 	std::string z_str = std::to_string(origin[2]) + " + " + std::to_string((S1 * d1).e[2]) + "*u + " + std::to_string((S2 * d2).e[2]) + "*v";
 
-	return "[u=0:1] [v=0:1] " + x_str + ',' + y_str + ',' + z_str + " with pm3d fs solid fc '#A0FF0000'";
+	return "[u=0:1] [v=0:1] " + x_str + ',' + y_str + ',' + z_str;
 }
 //END RECTANGLE
 
