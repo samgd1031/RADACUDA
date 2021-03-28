@@ -143,7 +143,7 @@ inline vec3 unit_vector(vec3 v) {
 }
 
 // return a random vector in the unit sphere
-vec3 random_in_unit_sphere() {
+inline vec3 random_in_unit_sphere() {
 	while (true) {
 		auto p = vec3::random(-1, 1);
 		if (p.length_squared() >= 1) continue; // vector is outside sphere, try again
@@ -153,12 +153,12 @@ vec3 random_in_unit_sphere() {
 
 // return a random vector ON the unit sphere
 // This is used to calculate true lambertian diffusion
-vec3 random_unit_vector() {
+inline vec3 random_unit_vector() {
 	return unit_vector(random_in_unit_sphere());
 }
 
 // return a random vector in hemisphere
-vec3 random_in_hemisphere(const vec3& normal) {
+inline vec3 random_in_hemisphere(const vec3& normal) {
 	vec3 in_unit_sphere = random_in_unit_sphere();
 	if (dot(in_unit_sphere, normal) > 0.0) // in same hemisphere as normal
 		return in_unit_sphere;
@@ -167,13 +167,13 @@ vec3 random_in_hemisphere(const vec3& normal) {
 }
 
 // return a reflection of a vector with a surface normal
-vec3 reflect(const vec3& v, const vec3& n) {
+inline vec3 reflect(const vec3& v, const vec3& n) {
 	return v - 2 * dot(v, n) * n;
 }
 
 // return a refraction of a material given ratio of refractive indices
 // refraction calculated using Snell's law
-vec3 refract(const vec3& uv, const vec3& n, double etai_over_etat) {
+inline vec3 refract(const vec3& uv, const vec3& n, double etai_over_etat) {
 	auto cos_theta = fmin(dot(-uv, n), 1.0); // angle between vectors
 	vec3 r_out_perp = etai_over_etat * (uv + cos_theta * n);
 	vec3 r_out_parallel = -sqrt(fabs(1.0 - r_out_perp.length_squared())) * n;

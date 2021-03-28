@@ -15,7 +15,7 @@
 
 
 int main() {
-	
+
 	// RIGHT NOW THE MAIN FUNCTION BUILDS A RECTANGLE AND CHECKS IF A FEW RAYS HIT IT
 	// 	   NO FANCY CALCULATIONS AT THE MOMENT
  
@@ -102,7 +102,6 @@ int main() {
 	gp.sendLine("set mouse");
 	gp.sendLine("set autoscale");
 	gp.sendLine("pause mouse close");
-	
-	return 0;
 
+	return 0;
 }
