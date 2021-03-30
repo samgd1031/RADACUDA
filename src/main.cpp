@@ -72,7 +72,8 @@ int main() {
 
     ray_list.push_back(ray(ray_origin, ray_dir));
     hit_rec_list.push_back(hit_record());
-    bool ray_hits = tgt_rect.hit(ray_list[ii], 0.0, infinity, hit_rec_list[ii]);
+    bool ray_hits =
+        tgt_rect.hit(ray_list[ii], 0.0, utility::infinity, hit_rec_list[ii]);
 
     // if ray hits, it is absorbed (for now assuming totally black surface)
     if (ray_hits) {

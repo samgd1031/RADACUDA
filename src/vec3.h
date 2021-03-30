@@ -59,13 +59,15 @@ class vec3 {
 
   // vector with random components in unit cube
   inline static vec3 random() {
-    return vec3(random_double(), random_double(), random_double());
+    return vec3(utility::random_double(), utility::random_double(),
+                utility::random_double());
   }
 
   // vector with random components, each component in [min, max)
   inline static vec3 random(double min, double max) {
-    return vec3(random_double(min, max), random_double(min, max),
-                random_double(min, max));
+    return vec3(utility::random_double(min, max),
+                utility::random_double(min, max),
+                utility::random_double(min, max));
   }
 
   // return true if vector is close to zero in all dimensions
