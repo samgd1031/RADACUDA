@@ -27,6 +27,7 @@
 #include <string>
 #include <vector>
 
+namespace gnuplot {
 class GnuplotPipe {
  public:
   inline GnuplotPipe(bool persist = true) {
@@ -72,3 +73,5 @@ class GnuplotPipe {
   FILE* pipe;
   std::vector<std::string> buffer;
 };
+
+}  // namespace gnuplot

@@ -4,14 +4,19 @@
 
 #include "vec3.h"
 
+namespace radacuda {
 // a node is a subdivision of a primitive surface (section of a rectangle,
 // sphere, etc.)
 class node {
  public:
   node(point3 loc) : location(loc) {}
 
- public:
+  point3 get_location() { return location; }
+
+ private:
   point3 location;  // location of the node
 };
+
+}  // namespace radacuda
 
 #endif  // !NODE_H

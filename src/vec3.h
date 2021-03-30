@@ -10,6 +10,8 @@
 
 using std::sqrt;
 
+namespace radacuda {
+
 class vec3 {
  public:
   // constructors
@@ -75,10 +77,6 @@ class vec3 {
  public:
   double e[3];
 };
-
-// Type aliases for vec3
-using point3 = vec3;  // 3d point
-using color = vec3;   // RGB color
 
 #endif
 
@@ -167,3 +165,9 @@ inline vec3 refract(const vec3& uv, const vec3& n, double etai_over_etat) {
   vec3 r_out_parallel = -sqrt(fabs(1.0 - r_out_perp.length_squared())) * n;
   return r_out_perp + r_out_parallel;
 }
+
+// Type aliases for vec3
+using point3 = vec3;  // 3d point
+using color = vec3;   // RGB color
+
+}  // namespace radacuda

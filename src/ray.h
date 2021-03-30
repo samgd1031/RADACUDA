@@ -7,7 +7,9 @@
 
 #include "vec3.h"
 
+namespace radacuda {
 class ray {
+
  public:
   // constructor
   // a ray is defined by a point (the origin) and a vector (the direction the
@@ -39,5 +41,7 @@ class ray {
   point3 orig;
   vec3 dir;
 };
+
+}  // namespace radacuda
 
 #endif

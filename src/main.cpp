@@ -12,6 +12,8 @@
 #include "utility.h"
 #include "vec3.h"
 
+using namespace radacuda;
+
 int main() {
   // RIGHT NOW THE MAIN FUNCTION BUILDS A RECTANGLE AND CHECKS IF A FEW RAYS HIT
   // IT 	   NO FANCY CALCULATIONS AT THE MOMENT
@@ -38,7 +40,7 @@ int main() {
   rectangle tgt_rect = rectangle(r_or, S1, S2, dim1, dim2, 1, 1);
 
   // plot the rectangles
-  GnuplotPipe gp;
+  gnuplot::GnuplotPipe gp;
   gp.sendLine("set hidden3d");
   gp.sendLine("set view equal xyz");
   gp.sendLine("set key off");
@@ -56,7 +58,7 @@ int main() {
   // ray setup
   int N_rays = 100;  // number of rays to shoot from target
 
-  point3 ray_origin = orig_rect.node_list[0].location;
+  point3 ray_origin = orig_rect.get_origin();
   std::vector<ray> ray_list;
   std::vector<hit_record> hit_rec_list;
   int hit_count = 0;

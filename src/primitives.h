@@ -12,6 +12,7 @@
 #include "hittable.h"
 #include "vec3.h"
 
+namespace radacuda {
 // RECTANGLE
 // Rectangles are defined by an origin/corner point, two (unit) vectors to set
 // the plane and two values to set the length in each dimension
@@ -153,5 +154,7 @@ inline std::string rectangle::gnuplot_repr() {
   return "[u=0:1] [v=0:1] " + x_str + ',' + y_str + ',' + z_str;
 }
 // END RECTANGLE
+
+}  // namespace radacuda
 
 #endif  // !PRIMITITVES_H
