@@ -68,7 +68,7 @@ int main() {
 
   // shoot the rays
   for (int ii = 0; ii < N_rays; ++ii) {
-    vec3 ray_dir = unit_vector(random_in_hemisphere(orig_rect.normal));
+    vec3 ray_dir = vec3::unit_vector(vec3::random_in_hemisphere(orig_rect.normal));
 
     ray_list.push_back(ray(ray_origin, ray_dir));
     hit_rec_list.push_back(hit_record());

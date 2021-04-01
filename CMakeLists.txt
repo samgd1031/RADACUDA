@@ -1,10 +1,9 @@
-cmake_minimum_required(VERSION 3.10)
+cmake_minimum_required(VERSION 3.12)
 set(CMAKE_CXX_STANDARD 20)
-set(CMAKE_BUILD_TYPE Debug)
-add_compile_options(-Wall -Werror)
+project(radacuda)
 
-project(RADACUDA)
+include(CTest)
 
 add_subdirectory(src)
-add_executable(radacuda src/main.cpp)
-target_link_libraries(radacuda radacuda_src)
+add_subdirectory(test)
+add_subdirectory(main)
