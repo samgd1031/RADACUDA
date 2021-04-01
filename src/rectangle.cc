@@ -1,10 +1,4 @@
-// this header file holds classes that define primitive shapes that have
-// mathematically defined interactions with rays These classes are child classes
-// of the generic "hittable" class
-#pragma once
-
-#ifndef PRIMITITVES_H
-#define PRIMITIVES_H
+#include "rectangle.h"
 
 #include <algorithm>
 #include <vector>
@@ -13,31 +7,9 @@
 #include "vec3.h"
 
 namespace radacuda {
-// RECTANGLE
-// Rectangles are defined by an origin/corner point, two (unit) vectors to set
-// the plane and two values to set the length in each dimension
-class rectangle : public hittable {
- public:
-  rectangle(point3 origin, vec3 v1, vec3 v2, double dim1, double dim2, int u_d,
-            int v_d);  // constructor
-  virtual bool hit(const ray& r, double t_min, double t_max,
-                   hit_record& rec) const override;  // hit function
-  virtual std::string gnuplot_repr() override;       // gnuplot representation
 
- public:
-  point3 origin;
-  vec3 S1;
-  vec3 S2;
-  vec3 normal;
-  double d1;
-  double d2;
-  int u_div;
-  int v_div;
-};
-
-// constructor
-inline rectangle::rectangle(point3 orig, vec3 v1, vec3 v2, double dim1,
-                            double dim2, int u_d, int v_d) {
+rectangle::rectangle(point3 orig, vec3 v1, vec3 v2, double dim1, double dim2,
+                     int u_d, int v_d) {
   origin = orig;               // origin
   d1 = dim1;                   // dimension along S1 direction
   d2 = dim2;                   // dimension along S2 direction
@@ -78,20 +50,20 @@ inline rectangle::rectangle(point3 orig, vec3 v1, vec3 v2, double dim1,
   }
 }
 
-// hit function
-inline bool rectangle::hit(const ray& r, double t_min, double t_max,
-                           hit_record& rec) const {
+bool rectangle::hit(const ray& r, double t_min, double t_max,
+                    hit_record& rec) const {
   // first, check if the ray and the rectangle normal are perpendicular
   // if they are, then the ray is parallel to the rectangle and will not hit
   // even if coplanar, the incident angle is 90degrees so never will absorb
   // (rectangle is infinitely thin) giving this a small tolerance since it is
   // unlikely to ever be exactly zero
-  if (vec3::dot(r.dir, normal) < 1e-6) return false;
+  if (vec3::dot(r.get_direction(), normal) < 1e-6) return false;
 
   // if the dot product is not zero, the ray will intersect the plane that the
   // rectangle lies in find this intersection point next
-  vec3 O_RP = origin - r.orig;  // vector from ray origin to plane origin
-  double t_hit = vec3::dot(O_RP, normal) / vec3::dot(r.dir, normal);
+  vec3 O_RP =
+      origin - r.get_origin();  // vector from ray origin to plane origin
+  double t_hit = vec3::dot(O_RP, normal) / vec3::dot(r.get_direction(), normal);
 
   // don't count as a hit if t is not between t_min and t_max
   // this will be used to filter out "backwards" rays (t_hit < 0)
@@ -133,8 +105,7 @@ inline bool rectangle::hit(const ray& r, double t_min, double t_max,
   return true;
 }
 
-// return a valid gnuplot string to plot this rectangle
-inline std::string rectangle::gnuplot_repr() {
+std::string rectangle::gnuplot_repr() {
   std::string x_str = std::to_string(origin[0]) + " + " +
                       std::to_string((S1 * d1).x()) + "*u + " +
                       std::to_string((S2 * d2).x()) + "*v";
@@ -147,8 +118,5 @@ inline std::string rectangle::gnuplot_repr() {
 
   return "[u=0:1] [v=0:1] " + x_str + ',' + y_str + ',' + z_str;
 }
-// END RECTANGLE
 
 }  // namespace radacuda
-
-#endif  // !PRIMITITVES_H

@@ -7,8 +7,8 @@
 #include <vector>
 
 #include "gnuplot.h"
-#include "primitives.h"
 #include "ray.h"
+#include "rectangle.h"
 #include "utility.h"
 #include "vec3.h"
 
@@ -68,7 +68,8 @@ int main() {
 
   // shoot the rays
   for (int ii = 0; ii < N_rays; ++ii) {
-    vec3 ray_dir = vec3::unit_vector(vec3::random_in_hemisphere(orig_rect.normal));
+    vec3 ray_dir =
+        vec3::unit_vector(vec3::random_in_hemisphere(orig_rect.get_normal()));
 
     ray_list.push_back(ray(ray_origin, ray_dir));
     hit_rec_list.push_back(hit_record());
