@@ -21,6 +21,18 @@ bool vec3::near_zero() const {
   return (fabs(e[0] < s)) && (fabs(e[1] < s)) && (fabs(e[2] < s));
 }
 
+vec3 vec3::perpendicularize(const vec3& other) {
+  // dot product is zero if vectors are perpendicular
+  double dot_val = dot(*this, other);
+  if (dot_val == 0.0) {
+    return other;
+  }
+  // find component of other parallel to this
+  vec3 parallel = (dot_val / this->length_squared()) * (*this);
+  // perpendicular component is vector minus parallel component
+  return other - parallel;
+}
+
 vec3 vec3::random() {
   return vec3(utility::random_double(), utility::random_double(),
               utility::random_double());

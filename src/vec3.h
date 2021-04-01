@@ -26,6 +26,11 @@ class vec3 {
   // return true if vector is close to zero in all dimensions
   bool near_zero() const;
 
+  // return a vector that is perpendicular to this vector which is formed by
+  // subtracting the component of other which is parallel to this vector.
+  // Returns the original vector if already perpendicular.
+  vec3 perpendicularize(const vec3& other);
+
   //// GENERATORS ////
   // vector with random components in unit cube
   static vec3 random();

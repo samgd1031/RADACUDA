@@ -25,13 +25,13 @@ class rectangle : public hittable {
 
  private:
   point3 origin;
-  vec3 S1;
-  vec3 S2;
-  vec3 normal;
   double d1;
   double d2;
   int u_div;
   int v_div;
+  vec3 S1;
+  vec3 S2;
+  vec3 normal;
 };
 
 }  // namespace radacuda

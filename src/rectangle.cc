@@ -9,32 +9,15 @@
 namespace radacuda {
 
 rectangle::rectangle(point3 orig, vec3 v1, vec3 v2, double dim1, double dim2,
-                     int u_d, int v_d) {
-  origin = orig;               // origin
-  d1 = dim1;                   // dimension along S1 direction
-  d2 = dim2;                   // dimension along S2 direction
-  u_div = u_d;                 // number of nodes in S1 direction
-  v_div = v_d;                 // number of nodes in S2 direction
-  S1 = vec3::unit_vector(v1);  // normalize to unit vector
-  // if S2 is not perpendicular to S1 it must be made perpendicular
-  if (vec3::dot(S1, v2) !=
-      0.0) {  // dot product is zero if vectors are perpendicular
-    vec3 parallel = (vec3::dot(S1, v2) / S1.length_squared()) *
-                    S1;  // find component of v2 parallel to S1
-    S2 =
-        v2 -
-        parallel;  // perpendicular component is vector minus parallel component
-    S2 = vec3::unit_vector(S2);  // normalize vector
-  } else
-    S2 = vec3::unit_vector(v2);  // normalize vector
-
-  // compute normal vector (computing here so that this calculation does not
-  // need to repeat every hit test)
-  // the normal vector is the same across the entire rectangle
-  normal =
-      vec3::cross(S1, S2);  // since S1 and S2 are already orthogonal unit
-                            // vectors the cross product is also a unit vector
-
+                     int u_d, int v_d)
+    : origin(orig),
+      d1(dim1),
+      d2(dim2),
+      u_div(u_d),
+      v_div(v_d),
+      S1(vec3::unit_vector(v1)),
+      S2(vec3::unit_vector(S1.perpendicularize(v2))),
+      normal(vec3::cross(S1, S2)) {
   // assign nodes based on U/V breakdown
   // for now nodalization is "edge" nodes only
   node_list.reserve(u_div * v_div);
@@ -61,8 +44,8 @@ bool rectangle::hit(const ray& r, double t_min, double t_max,
 
   // if the dot product is not zero, the ray will intersect the plane that the
   // rectangle lies in find this intersection point next
-  vec3 O_RP =
-      origin - r.get_origin();  // vector from ray origin to plane origin
+  // vector from ray origin to plane origin
+  vec3 O_RP = origin - r.get_origin();
   double t_hit = vec3::dot(O_RP, normal) / vec3::dot(r.get_direction(), normal);
 
   // don't count as a hit if t is not between t_min and t_max
