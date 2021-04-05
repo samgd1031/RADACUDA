@@ -7,7 +7,7 @@ find_package(GTest REQUIRED)
 file(GLOB test_files CONFIGURE_DEPENDS "*.cc")
 
 add_executable(radacuda_test ${test_files})
-target_link_libraries(radacuda_test GTest::gtest GTest::gtest_main radacuda_src)
+target_link_libraries(radacuda_test GTest::GTest GTest::Main radacuda_src)
 target_compile_features(radacuda_test PUBLIC cxx_std_20)
 target_compile_options(radacuda_test PUBLIC -Wall -Werror)
 
